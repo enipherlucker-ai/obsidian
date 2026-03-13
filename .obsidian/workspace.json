@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DE/Основы-основ/GIT команды PyCharm.md",
+                "file": "README.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "GIT команды PyCharm"
+              "title": "README"
             }
           }
         ]
@@ -193,6 +193,9 @@
   },
   "active": "193e37821bb32923",
   "lastOpenFiles": [
+    "DE/DE2/Python/Функции порядка.md",
+    "DE/DE2/Python/А ыф.md",
+    "DE/Основы-основ/GIT команды PyCharm.md",
     "README.md"
   ]
 }
