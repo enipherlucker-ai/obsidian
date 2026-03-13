@@ -1,4 +1,2 @@
 # obsidian
-Аттестация
-asdasdasdad
-asd
+Подготовка к аттестации. Синхра для obsidian

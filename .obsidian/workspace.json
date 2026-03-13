@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "DE/Основы-основ/Аттестация.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "Аттестация"
             }
           }
         ]
@@ -193,9 +193,20 @@
   },
   "active": "193e37821bb32923",
   "lastOpenFiles": [
+    "DE/DE1/БД-Теория/'Куча' (Heap).md",
+    "Без названия.base",
+    "README.md",
+    "DE/Основы-основ/Непонятные слова.md",
+    "DE/Основы-основ/Основы работы Python.md",
+    "DE/Основы-основ/Чуть более сложные основы Python.md",
+    "Без названия 1.base",
+    "deepseek_mermaid_20250919_02977a.mermaid",
+    "deepseek_mermaid_20250919_9cc2fd.mermaid",
+    "deepseek_mermaid_20250919_9cc2fd 2.mermaid",
+    "deepseek_mermaid_20250919_9cc2fd 1.mermaid",
+    "DE/DE1/БД-Теория/Внешние ключи.md",
     "DE/DE2/Python/Функции порядка.md",
     "DE/DE2/Python/А ыф.md",
-    "DE/Основы-основ/GIT команды PyCharm.md",
-    "README.md"
+    "DE/Основы-основ/GIT команды PyCharm.md"
   ]
 }

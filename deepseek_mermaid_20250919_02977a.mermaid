@@ -1,0 +1,31 @@
+erDiagram
+    fact_orders {
+        int order_id
+        int date_key
+        int product_key
+        int customer_key
+        numeric amount
+    }
+    dim_date {
+        int date_key PK
+        int day
+        int month_id
+    }
+    dim_month {
+        int month_id PK
+        varchar month_name
+        int quarter_id
+    }
+    dim_product {
+        int product_key PK
+        varchar product_name
+        int category_id
+    }
+    dim_category {
+        int category_id PK
+        varchar category_name
+    }
+
+    fact_orders }o--|| dim_date : "date_key"
+    dim_date }o--|| dim_month : "month_id"
+    dim_product }o--|| dim_category : "category_id"
