@@ -11,13 +11,14 @@
             "id": "193e37821bb32923",
             "type": "leaf",
             "state": {
-              "type": "bases",
+              "type": "split-diff-view",
               "state": {
-                "file": "Без названия.base",
-                "viewName": "Таблица"
+                "aFile": "README.md",
+                "bFile": "README.md",
+                "aRef": ""
               },
-              "icon": "lucide-table",
-              "title": "Без названия"
+              "icon": "diff",
+              "title": "Diff: README  (Working Tree)"
             }
           }
         ]
@@ -192,11 +193,11 @@
   },
   "active": "193e37821bb32923",
   "lastOpenFiles": [
-    "Без названия 1.base",
-    "Без названия.base",
     "DE/Основы-основ/Аттестация.md",
-    "DE/DE1/БД-Теория/'Куча' (Heap).md",
     "README.md",
+    "Без названия.base",
+    "Без названия 1.base",
+    "DE/DE1/БД-Теория/'Куча' (Heap).md",
     "DE/Основы-основ/Непонятные слова.md",
     "DE/Основы-основ/Основы работы Python.md",
     "DE/Основы-основ/Чуть более сложные основы Python.md",
