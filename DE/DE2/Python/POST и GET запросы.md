@@ -129,21 +129,21 @@ POST обычно не кэшируется так же просто.
 На практике в Python чаще всего используют библиотеку `requests`.
 
 ### GET:
-
+```python
 import requests  
   
 response = requests.get("https://api.example.com/orders/123")  
 data = response.json()  
 print(data)
-
+```
 ### POST:
-
+```python
 import requests  
   
 payload = {"order_id": 123, "status": "processed"}  
 response = requests.post("https://api.example.com/orders/update", json=payload)  
 print(response.json())
-
+```
 ---
 
 ## Статус-коды ответа
@@ -153,22 +153,15 @@ print(response.json())
 Наиболее частые коды:
 
 - **200 OK** — запрос выполнен успешно;
-    
 - **201 Created** — объект успешно создан;
-    
 - **400 Bad Request** — ошибка в параметрах запроса;
-    
 - **401 Unauthorized** — нет авторизации;
-    
 - **403 Forbidden** — доступ запрещён;
-    
 - **404 Not Found** — ресурс не найден;
-    
 - **500 Internal Server Error** — ошибка на стороне сервера.
-    
 
 Пример проверки:
-
+```python
 import requests  
   
 response = requests.get("https://api.example.com/users/1")  
@@ -177,7 +170,7 @@ if response.status_code == 200:
     print(response.json())  
 else:  
     print(f"Ошибка: {response.status_code}")
-
+```
 ---
 
 ## Заголовки и авторизация
@@ -185,7 +178,7 @@ else:
 Очень часто API требует передавать заголовки, например токен доступа.
 
 Пример:
-
+```python
 import requests  
   
 headers = {  
@@ -199,7 +192,7 @@ response = requests.get(
 )  
   
 print(response.status_code)
-
+```
 Для Data Engineer это особенно важно, потому что интеграции с API почти всегда требуют авторизацию.
 
 ---
@@ -213,28 +206,19 @@ print(response.status_code)
 Например, через GET можно забирать:
 
 - курсы валют;
-    
 - данные клиентов;
-    
 - информацию о заказах;
-    
 - события из внешней системы;
-    
 - справочники.
-    
 
 ### 2. Отправка данных в другую систему
 
 Через POST можно:
 
 - отправлять результаты обработки;
-    
 - публиковать данные в сервис;
-    
 - создавать задачи на внешней платформе;
-    
 - вызывать запуск обработки.
-    
 
 ### 3. Интеграции в ETL/ELT
 
@@ -253,15 +237,15 @@ print(response.status_code)
 Представим, что у нас есть пайплайн, который забирает заказы из внешнего сервиса.
 
 Сначала мы делаем GET-запрос:
-
+```python
 import requests  
   
 response = requests.get("https://api.example.com/orders", params={"date": "2026-03-15"})  
 orders = response.json()
-
+```
 После этого обрабатываем данные внутри Python.  
 А затем можем отправить агрегированный результат в другую систему через POST:
-
+```python
 import requests  
   
 result = {  
@@ -271,7 +255,7 @@ result = {
 }  
   
 response = requests.post("https://api.example.com/report", json=result)
-
+```
 То есть GET — это входящий поток данных,  
 а POST — исходящий поток данных или команда на действие.
 
@@ -291,11 +275,11 @@ response = requests.post("https://api.example.com/report", json=result)
 Запрос может зависнуть, поэтому лучше явно задавать timeout.
 
 Пример:
-
+```python
 import requests  
   
 response = requests.get("https://api.example.com/data", timeout=10)
-
+```
 ### 3. Повторы запросов
 
 Иногда API временно недоступно, и нужна retry-логика.
@@ -315,7 +299,7 @@ response = requests.get("https://api.example.com/data", timeout=10)
 Часто пишут не просто один запрос, а оборачивают вызовы API в функции.
 
 Пример:
-
+```python
 import requests  
   
 def get_users(page: int):  
@@ -326,7 +310,7 @@ def get_users(page: int):
     )  
     response.raise_for_status()  
     return response.json()
-
+```
 Так код становится чище, проще тестируется и переиспользуется.
 
 ---
@@ -397,10 +381,4 @@ GET используется для получения данных, POST — д
 Можно запомнить так:
 
 - **GET** = **взять** данные;
-    
 - **POST** = **положить / отправить** данные.
-    
-
----
-
-Могу следующим сообщением сделать ещё и **версию на 1 минуту**, чтобы это звучало как готовый устный ответ на аттестации.
