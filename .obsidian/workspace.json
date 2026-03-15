@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DE/Основы-основ/Непонятные слова.md",
+                "file": "DE/DE2/Python/Функции порядка.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Непонятные слова"
+              "title": "Функции порядка"
             }
           }
         ]
@@ -193,12 +193,13 @@
   },
   "active": "a22d319b2e543ece",
   "lastOpenFiles": [
+    "DE/DE2/Python/А ыф.md",
     "DE/Основы-основ/Аттестация.md",
+    "DE/Основы-основ/Непонятные слова.md",
     "README.md",
     "Без названия.base",
     "Без названия 1.base",
     "DE/DE1/БД-Теория/'Куча' (Heap).md",
-    "DE/Основы-основ/Непонятные слова.md",
     "DE/Основы-основ/Основы работы Python.md",
     "DE/Основы-основ/Чуть более сложные основы Python.md",
     "deepseek_mermaid_20250919_02977a.mermaid",
@@ -207,7 +208,6 @@
     "deepseek_mermaid_20250919_9cc2fd 1.mermaid",
     "DE/DE1/БД-Теория/Внешние ключи.md",
     "DE/DE2/Python/Функции порядка.md",
-    "DE/DE2/Python/А ыф.md",
     "DE/Основы-основ/GIT команды PyCharm.md"
   ]
 }
