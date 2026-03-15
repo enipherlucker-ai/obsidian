@@ -11,14 +11,13 @@
             "id": "193e37821bb32923",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "bases",
               "state": {
-                "file": "DE/Основы-основ/Аттестация.md",
-                "mode": "source",
-                "source": false
+                "file": "Без названия.base",
+                "viewName": "Таблица"
               },
-              "icon": "lucide-file",
-              "title": "Аттестация"
+              "icon": "lucide-table",
+              "title": "Без названия"
             }
           }
         ]
@@ -191,15 +190,16 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "49f8fd5de02be0b9",
+  "active": "193e37821bb32923",
   "lastOpenFiles": [
-    "DE/DE1/БД-Теория/'Куча' (Heap).md",
+    "Без названия 1.base",
     "Без названия.base",
+    "DE/Основы-основ/Аттестация.md",
+    "DE/DE1/БД-Теория/'Куча' (Heap).md",
     "README.md",
     "DE/Основы-основ/Непонятные слова.md",
     "DE/Основы-основ/Основы работы Python.md",
     "DE/Основы-основ/Чуть более сложные основы Python.md",
-    "Без названия 1.base",
     "deepseek_mermaid_20250919_02977a.mermaid",
     "deepseek_mermaid_20250919_9cc2fd.mermaid",
     "deepseek_mermaid_20250919_9cc2fd 2.mermaid",
