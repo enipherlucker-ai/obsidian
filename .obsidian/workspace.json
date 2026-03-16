@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DE/DE2/Python/В чем заключается проблема рекурсивного импорта..md",
+                "file": "DE/DE1/БД-Теория/Внешние ключи.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "В чем заключается проблема рекурсивного импорта."
+              "title": "Внешние ключи"
             }
           }
         ]
@@ -191,20 +191,21 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "887e4fa1cc9d112d",
+  "active": "193e37821bb32923",
   "lastOpenFiles": [
+    "DE/Основы-основ/Непонятные слова.md",
+    "DE/DE1/БД-Теория/Внешние ключи.md",
+    "DE/DE2/Python/POST и GET запросы.md",
+    "DE/DE2/Python/В чем заключается проблема рекурсивного импорта..md",
     "DE/DE2/Python/multiprocessing и multithreading — что это и в чем их различие..md",
     "DE/DE1/GIT/Основные стратегии ведения репозитория. Какая из них относится к отделу..md",
     "DE/DE2/Python/Функции порядка.md",
     "DE/DE2/Python/Функциональные выражения. Использование функций как аргументов. Функции первого и высшего порядков. Примеры..md",
-    "DE/DE2/Python/В чем заключается проблема рекурсивного импорта..md",
-    "DE/DE2/Python/POST и GET запросы.md",
     "DE/DE2/Python/ORM. Основные подходы.md",
     "DE/Основы-основ/Аттестация.md",
     "DE/DE1/БД-Теория/'Куча' (Heap).md",
     "Без названия.base",
     "README.md",
-    "DE/Основы-основ/Непонятные слова.md",
     "DE/Основы-основ/Основы работы Python.md",
     "DE/Основы-основ/Чуть более сложные основы Python.md",
     "Без названия 1.base",
@@ -212,7 +213,6 @@
     "deepseek_mermaid_20250919_9cc2fd.mermaid",
     "deepseek_mermaid_20250919_9cc2fd 2.mermaid",
     "deepseek_mermaid_20250919_9cc2fd 1.mermaid",
-    "DE/DE1/БД-Теория/Внешние ключи.md",
     "DE/DE2/Python/А ыф.md",
     "DE/Основы-основ/GIT команды PyCharm.md"
   ]
