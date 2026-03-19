@@ -20,23 +20,8 @@
               "icon": "lucide-file",
               "title": "работа с оперативной памятью, GIL, Garbage Collector"
             }
-          },
-          {
-            "id": "847b98bdca6fbdb5",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "conflict-files-obsidian-git.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "conflict-files-obsidian-git"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -206,7 +191,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "847b98bdca6fbdb5",
+  "active": "887e4fa1cc9d112d",
   "lastOpenFiles": [
     "DE/DE2/Python/работа с оперативной памятью, GIL, Garbage Collector.md",
     "conflict-files-obsidian-git.md",
