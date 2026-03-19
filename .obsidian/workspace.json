@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DE/DE2/Python/работа с оперативной памятью, GIL, Garbage Collector.md",
+                "file": "DE/Основы-основ/Аттестация 2 категория.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "работа с оперативной памятью, GIL, Garbage Collector"
+              "title": "Аттестация 2 категория"
             }
           }
         ]
@@ -191,9 +191,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "887e4fa1cc9d112d",
+  "active": "a22d319b2e543ece",
   "lastOpenFiles": [
-    "DE/DE2/Python/работа с оперативной памятью, GIL, Garbage Collector.md",
+    "DE/DE2/Python/Устройство работы с оперативной памятью в Python. GIL. Garbage collector.md",
     "conflict-files-obsidian-git.md",
     "DE/DE2/Python/multiprocessing и multithreading — что это и в чем их различие..md",
     "DE/Основы-основ/Аттестация 2 категория.md",
