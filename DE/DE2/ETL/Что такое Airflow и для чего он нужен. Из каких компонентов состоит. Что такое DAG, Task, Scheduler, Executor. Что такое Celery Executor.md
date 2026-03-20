@@ -322,26 +322,18 @@ Airflow не заменяет Spark, dbt, Kafka, ClickHouse, Snowflake или Po
 Middle Data Engineer должен уметь ответить:
 
 - почему задача не стартует;
-    
 - scheduler тормозит или нет;
-    
 - проблема в broker, в worker, в metadata DB или в зависимости DAG;
-    
 - где искать лог: в webserver, worker, remote storage, Celery-monitoring.
-    
 
 ### 5. Писать DAG’и, которые не ломают orchestration layer
 
 Хороший Data Engineer не пишет DAG, который:
 
 - тянет внешние API во время парсинга,
-    
 - хранит данные на локальном диске,
-    
 - прокидывает гигабайты через XCom,
-    
 - плодит тысячи мелких задач без смысла.
-    
 
 ---
 
@@ -350,50 +342,33 @@ Middle Data Engineer должен уметь ответить:
 ### Типичный стек рядом с Airflow
 
 - **PostgreSQL / MySQL** — metadata database Airflow.
-    
 - **Redis / RabbitMQ** — broker для CeleryExecutor.
-    
 - **Celery workers** — исполнители задач в распределённом режиме.
-    
 - **S3 / GCS / HDFS** — внешнее хранение данных и логов, особенно в distributed setup.
-    
 - **Spark / dbt / SQL engines / Python scripts** — фактические движки обработки, которые Airflow оркестрирует.
-    
 - **Flower** — UI для мониторинга Celery workers.
-    
 
 ### Типовые сценарии
 
 **Сценарий 1. Ночной ETL**
 
 - в 02:00 стартует DAG;
-    
 - task 1 забирает данные из API;
-    
 - task 2 кладёт raw в S3;
-    
 - task 3 запускает SQL-трансформацию в DWH;
-    
 - task 4 валидирует quality checks;
-    
 - task 5 шлёт уведомление в Slack.
-    
 
 **Сценарий 2. ELT в DWH**
 
 - Airflow не считает данные сам;
-    
 - он по шагам оркестрирует `dbt run`, `dbt test`, refresh витрин, обмен статусами.
-    
 
 **Сценарий 3. Spark-пайплайн**
 
 - одна task создаёт Spark job;
-    
 - другая ждёт её завершения;
-    
 - следующая пишет метрики и уведомляет команду.
-    
 
 Здесь важна мысль: Airflow — это **control plane**, а не **data plane**.
 
@@ -420,15 +395,10 @@ Middle Data Engineer должен уметь ответить:
 Не всегда. Он лучше **масштабируется**, но архитектурно сложнее:
 
 - нужен broker,
-    
 - нужен result backend,
-    
 - нужны workers,
-    
 - нужны синхронные DAG files и зависимости,
-    
 - нужен мониторинг распределённой системы.
-    
 
 ### Ошибка 5. “Через XCom можно передавать что угодно”
 
