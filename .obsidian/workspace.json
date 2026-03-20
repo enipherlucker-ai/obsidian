@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DE/Основы-основ/Аттестация 2 категория.md",
+                "file": "DE/DE2/ETL/Kafka. Топики, партиции, подписка, отправка данных..md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Аттестация 2 категория"
+              "title": "Kafka. Топики, партиции, подписка, отправка данных."
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "DE/Основы-основ/Аттестация 2 категория.md",
+                "file": "DE/DE2/ETL/Kafka. Топики, партиции, подписка, отправка данных..md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Обратные ссылки для Аттестация 2 категория"
+              "title": "Обратные ссылки для Kafka. Топики, партиции, подписка, отправка данных."
             }
           },
           {
@@ -193,8 +193,9 @@
   },
   "active": "a22d319b2e543ece",
   "lastOpenFiles": [
-    "DE/DE2/ETL/Виды Task`ов в Airflow. TaskGroup. Динамическое создание DAG, Task.Передача данных между задачами..md",
     "DE/Основы-основ/Аттестация 2 категория.md",
+    "DE/DE2/ETL/Kafka. Топики, партиции, подписка, отправка данных..md",
+    "DE/DE2/ETL/Виды Task`ов в Airflow. TaskGroup. Динамическое создание DAG, Task.Передача данных между задачами..md",
     "DE/DE2/ETL/Что такое Airflow и для чего он нужен. Из каких компонентов состоит. Что такое DAG, Task, Scheduler, Executor. Что такое Celery Executor.md",
     "DE/DE2/ETL",
     "DE/DE2/Python/Алгоритмическая сложность. Теория и примеры (хорошие и плохие практики). Основные примеры нотаций «O» большое..md",
@@ -221,7 +222,6 @@
     "Без названия 1.base",
     "DE/DE1/БД-Теория/'Куча' (Heap).md",
     "DE/Основы-основ/Основы работы Python.md",
-    "DE/Основы-основ/Чуть более сложные основы Python.md",
     "deepseek_mermaid_20250919_02977a.mermaid",
     "deepseek_mermaid_20250919_9cc2fd.mermaid",
     "deepseek_mermaid_20250919_9cc2fd 2.mermaid",
