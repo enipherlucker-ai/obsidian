@@ -11,14 +11,14 @@
             "id": "193e37821bb32923",
             "type": "leaf",
             "state": {
-              "type": "split-diff-view",
+              "type": "markdown",
               "state": {
-                "aFile": ".obsidian/workspace.json",
-                "bFile": ".obsidian/workspace.json",
-                "aRef": ""
+                "file": "DE/Основы-основ/Аттестация 2 категория.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "diff",
-              "title": "Diff: workspace.json  (Working Tree)"
+              "icon": "lucide-file",
+              "title": "Аттестация 2 категория"
             }
           }
         ]
@@ -191,13 +191,13 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "887e4fa1cc9d112d",
+  "active": "193e37821bb32923",
   "lastOpenFiles": [
+    "DE/Основы-основ/Аттестация 1 категория.md",
     "DE/DE2/Python/Устройство работы с оперативной памятью в Python. GIL. Garbage collector.md",
     "DE/DE2/Python/Алгоритмическая сложность. Теория и примеры (хорошие и плохие практики). Основные примеры нотаций «O» большое..md",
     "DE/DE1/БД-Теория/Внешние ключи.md",
     "DE/Основы-основ/Аттестация 2 категория.md",
-    "DE/Основы-основ/Аттестация 1 категория.md",
     "DE/DE2/Python/Какие библиотеки позволяют осуществлять векторизованные вычисления и выполнять работу с матрицами и векторами Почему их использование предпочтительно (почему они работают быстрее).md",
     "DE/Основы-основ/Непонятные слова.md",
     "DE/DE2/Python/POST и GET запросы.md",
