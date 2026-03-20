@@ -220,17 +220,11 @@ Dag Run — это конкретная инстанция DAG во времен
 Логика такая:
 
 1. Scheduler видит готовую task instance.
-    
 2. Через CeleryExecutor он кладёт команду в **broker**. Broker — это очередь команд на выполнение.
-    
 3. Один из worker’ов читает эту задачу из очереди.
-    
 4. Worker запускает дочерний процесс, где уже исполняется пользовательский код задачи. В схеме CeleryExecutor это описано через `LocalTaskJobProcess` и `RawTaskProcess`.
-    
 5. После выполнения worker записывает статус в **result backend**.
-    
 6. Scheduler периодически опрашивает result backend и обновляет состояние task instance, после чего может выпускать следующие задачи.
-    
 
 #### Зачем нужен broker и зачем нужен result backend
 
