@@ -208,19 +208,12 @@ Dag Run — это конкретная инстанция DAG во времен
 Архитектурно в Celery-сценарии есть:
 
 - **Scheduler**
-    
 - **Workers**
-    
 - **Webserver**
-    
 - **Metadata DB**
-    
 - **Celery broker**
-    
 - **Celery result backend**
-    
 - и DAG files, которые должны быть доступны worker’ам.
-    
 
 #### Как идёт выполнение задачи через CeleryExecutor
 

@@ -230,10 +230,10 @@
       }
     ]
   },
-  "active": "dd8401564a36ef0e",
+  "active": "193e37821bb32923",
   "lastOpenFiles": [
-    "DE/DE2/ETL/Что такое Airflow и для чего он нужен. Из каких компонентов состоит. Что такое DAG, Task, Scheduler, Executor. Что такое Celery Executor.md",
     "DE/Основы-основ/Аттестация 2 категория.md",
+    "DE/DE2/ETL/Что такое Airflow и для чего он нужен. Из каких компонентов состоит. Что такое DAG, Task, Scheduler, Executor. Что такое Celery Executor.md",
     "DE/DE2/ETL",
     "DE/Основы-основ/Аттестация 1 категория.md",
     "DE/DE2/Python/Устройство работы с оперативной памятью в Python. GIL. Garbage collector.md",
