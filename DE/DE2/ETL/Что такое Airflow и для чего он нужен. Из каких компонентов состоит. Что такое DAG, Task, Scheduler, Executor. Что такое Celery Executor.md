@@ -425,35 +425,20 @@ Middle Data Engineer должен уметь ответить:
 ## 8. Список возможных вопросов на аттестации
 
 1. Что такое Airflow и чем он отличается от cron?
-    
 2. Что такое DAG в Airflow?
-    
 3. Чем Task отличается от Operator?
-    
 4. Чем Task отличается от Task Instance?
-    
 5. Что делает Scheduler?
-    
 6. Что такое Executor и зачем он нужен?
-    
 7. Чем LocalExecutor отличается от CeleryExecutor?
-    
 8. Что такое Celery broker и result backend?
-    
 9. Почему в CeleryExecutor нельзя полагаться на локальные файлы?
-    
 10. Что хранится в metadata database?
-    
 11. Можно ли передавать большие данные через XCom?
-    
 12. Почему тяжёлый код в DAG-файле — плохая практика?
-    
 13. Что такое Dag Run?
-    
 14. Почему logical date и реальное время запуска — не одно и то же?
-    
 15. Когда имеет смысл использовать CeleryExecutor?
-    
 
 ---
 
