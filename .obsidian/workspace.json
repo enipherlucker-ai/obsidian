@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "604c8e226768eb8a",
+        "id": "e04ec81e02618e12",
         "type": "tabs",
         "children": [
           {
-            "id": "a22d319b2e543ece",
+            "id": "193e37821bb32923",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "split-diff-view",
               "state": {
-                "file": "DE/Основы-основ/Аттестация 2 категория.md",
-                "mode": "source",
-                "source": false
+                "aFile": ".obsidian/workspace.json",
+                "bFile": ".obsidian/workspace.json",
+                "aRef": ""
               },
-              "icon": "lucide-file",
-              "title": "Аттестация 2 категория"
+              "icon": "diff",
+              "title": "Diff: workspace.json  (Working Tree)"
             }
           }
         ]
@@ -191,39 +191,34 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "a22d319b2e543ece",
+  "active": "887e4fa1cc9d112d",
   "lastOpenFiles": [
+    "DE/DE2/Python/Устройство работы с оперативной памятью в Python. GIL. Garbage collector.md",
     "DE/DE2/Python/Алгоритмическая сложность. Теория и примеры (хорошие и плохие практики). Основные примеры нотаций «O» большое..md",
+    "DE/DE1/БД-Теория/Внешние ключи.md",
     "DE/Основы-основ/Аттестация 2 категория.md",
     "DE/Основы-основ/Аттестация 1 категория.md",
-    "DE/DE2/Python/Устройство работы с оперативной памятью в Python. GIL. Garbage collector.md",
-    "conflict-files-obsidian-git.md",
-    "DE/DE2/Python/multiprocessing и multithreading — что это и в чем их различие..md",
     "DE/DE2/Python/Какие библиотеки позволяют осуществлять векторизованные вычисления и выполнять работу с матрицами и векторами Почему их использование предпочтительно (почему они работают быстрее).md",
-    "DE/DE1/GIT/Что такое система контроля версий и зачем она нужна.md",
-    "DE/DE1/GIT/Сherry-pick. Что это и когда применять.md",
-    "DE/DE1/GIT/Решение конфликтов в репозитории. Что такое rebase и чем он опасен. Force push и почему он нежелателен..md",
-    "DE/DE1/GIT/Основные стратегии ведения репозитория. Какая из них относится к отделу..md",
-    "DE/DE1/1С/Связи объектов 1С.md",
-    "DE/DE1/1С/Консоль запросов 1С.md",
-    "DE/DE1/1С/Виды прикладных объектов в 1С.md",
-    "DE/DE2/Python/В чем заключается проблема рекурсивного импорта..md",
-    "DE/DE2/Python/ORM. Основные подходы.md",
-    "DE/DE2/Python/POST и GET запросы.md",
-    "DE/DE2/Python/Функциональные выражения. Использование функций как аргументов. Функции первого и высшего порядков. Примеры..md",
-    "DE/DE2/Python/А ыф.md",
     "DE/Основы-основ/Непонятные слова.md",
-    "README.md",
-    "Без названия.base",
-    "Без названия 1.base",
+    "DE/DE2/Python/POST и GET запросы.md",
+    "DE/DE2/Python/В чем заключается проблема рекурсивного импорта..md",
+    "DE/DE2/Python/multiprocessing и multithreading — что это и в чем их различие..md",
+    "DE/DE1/GIT/Основные стратегии ведения репозитория. Какая из них относится к отделу..md",
+    "DE/DE2/Python/Функции порядка.md",
+    "DE/DE2/Python/Функциональные выражения. Использование функций как аргументов. Функции первого и высшего порядков. Примеры..md",
+    "DE/DE2/Python/ORM. Основные подходы.md",
+    "DE/Основы-основ/Аттестация.md",
     "DE/DE1/БД-Теория/'Куча' (Heap).md",
+    "Без названия.base",
+    "README.md",
     "DE/Основы-основ/Основы работы Python.md",
     "DE/Основы-основ/Чуть более сложные основы Python.md",
+    "Без названия 1.base",
     "deepseek_mermaid_20250919_02977a.mermaid",
     "deepseek_mermaid_20250919_9cc2fd.mermaid",
     "deepseek_mermaid_20250919_9cc2fd 2.mermaid",
     "deepseek_mermaid_20250919_9cc2fd 1.mermaid",
-    "DE/DE1/БД-Теория/Внешние ключи.md",
+    "DE/DE2/Python/А ыф.md",
     "DE/Основы-основ/GIT команды PyCharm.md"
   ]
 }
