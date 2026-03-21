@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "604c8e226768eb8a",
+        "id": "8178b2abd616698d",
         "type": "tabs",
         "children": [
           {
-            "id": "a22d319b2e543ece",
+            "id": "392306a7a2bc2a73",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -191,10 +191,14 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "a22d319b2e543ece",
+  "active": "392306a7a2bc2a73",
   "lastOpenFiles": [
-    "DE/DE2/ETL/ETL и ELT. В чем ключевые различия в этих подходах. В каком контексте применяются и упоминаются эти парадигмы.md",
+    "DE/Основы-основ/Непонятные слова.md",
+    "DE/Основы-основ/GIT команды PyCharm.md",
+    "DE/Основы-основ/Основы работы Python.md",
+    "DE/Основы-основ/Чуть более сложные основы Python.md",
     "DE/Основы-основ/Аттестация 2 категория.md",
+    "DE/DE2/ETL/ETL и ELT. В чем ключевые различия в этих подходах. В каком контексте применяются и упоминаются эти парадигмы.md",
     "DE/DE2/ETL/Kafka. Топики, партиции, подписка, отправка данных..md",
     "DE/DE2/ETL/Виды Task`ов в Airflow. TaskGroup. Динамическое создание DAG, Task.Передача данных между задачами..md",
     "DE/DE2/ETL/Что такое Airflow и для чего он нужен. Из каких компонентов состоит. Что такое DAG, Task, Scheduler, Executor. Что такое Celery Executor.md",
@@ -216,12 +220,8 @@
     "DE/DE2/Python/ORM. Основные подходы.md",
     "DE/DE2/Python/POST и GET запросы.md",
     "DE/DE2/Python/Функциональные выражения. Использование функций как аргументов. Функции первого и высшего порядков. Примеры..md",
-    "DE/DE2/Python/А ыф.md",
-    "DE/Основы-основ/Непонятные слова.md",
-    "README.md",
     "Без названия.base",
     "Без названия 1.base",
-    "DE/DE1/БД-Теория/'Куча' (Heap).md",
     "deepseek_mermaid_20250919_02977a.mermaid",
     "deepseek_mermaid_20250919_9cc2fd.mermaid",
     "deepseek_mermaid_20250919_9cc2fd 2.mermaid",
