@@ -4,11 +4,53 @@
     "type": "split",
     "children": [
       {
-        "id": "8178b2abd616698d",
+        "id": "e04ec81e02618e12",
         "type": "tabs",
         "children": [
           {
-            "id": "636bc5a0224a42a7",
+            "id": "193e37821bb32923",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "DE/Основы-основ/Аттестация 2 категория.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Аттестация 2 категория"
+            }
+          },
+          {
+            "id": "6c871be4f901c40a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "DE/Основы-основ/Аттестация 2 категория.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Аттестация 2 категория"
+            }
+          },
+          {
+            "id": "0533a29ac1e874d4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "DE/Основы-основ/Аттестация 2 категория.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Аттестация 2 категория"
+            }
+          },
+          {
+            "id": "c321dbf6ac24bdb2",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -21,7 +63,8 @@
               "title": "Аттестация 2 категория"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -94,7 +137,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "DE/DE2/Python/Без названия.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +146,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Обратные ссылки для Без названия"
+              "title": "Обратные ссылки"
             }
           },
           {
@@ -192,37 +234,37 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "636bc5a0224a42a7",
+  "active": "c321dbf6ac24bdb2",
   "lastOpenFiles": [
-    "DE/DE2/ETL/Виды Task`ов в Airflow. TaskGroup. Динамическое создание DAG, Task.Передача данных между задачами..md",
-    "DE/Основы-основ/Аттестация 2 категория.md",
-    "DE/DE2/ETL/MPP. Реализация в GreenPlum и ClickHouse..md",
     "DE/DE2/ETL/Батчевая и потоковая обработки данных. В чем их особенности и различия. Каппа и лямбда архитектуры..md",
     "DE/DE2/ETL/ACID..md",
-    "DE/DE2/Python/ORM. Основные подходы.md",
-    "DE/DE2/ETL/Что такое Airflow и для чего он нужен. Из каких компонентов состоит. Что такое DAG, Task, Scheduler, Executor. Что такое Celery Executor.md",
-    "DE/DE2/Python/Сериализация данных в JSON и их десериализация при помощи Python..md",
-    "DE/DE2/Python/Обработка исключений..md",
-    "DE/Основы-основ/Аттестация 1 категория.md",
-    "Аттестация_Ответы.md",
-    "README.md",
-    "Без названия.base",
-    "Без названия 1.base",
-    "DE/DE2/Python/Функциональные выражения. Использование функций как аргументов. Функции первого и высшего порядков. Примеры..md",
-    "DE/DE2/Python/Без названия.md",
-    "Обработка исключений..md",
-    "Сериализация данных в JSON и их десериализация при помощи Python..md",
-    "DE/DE2/Python/В чем заключается проблема рекурсивного импорта..md",
-    "DE/Основы-основ/Непонятные слова.md",
-    "DE/Основы-основ/GIT команды PyCharm.md",
-    "DE/Основы-основ/Основы работы Python.md",
-    "DE/Основы-основ/Чуть более сложные основы Python.md",
     "DE/DE2/ETL/ETL и ELT. В чем ключевые различия в этих подходах. В каком контексте применяются и упоминаются эти парадигмы.md",
     "DE/DE2/ETL/Kafka. Топики, партиции, подписка, отправка данных..md",
-    "DE/DE2/ETL",
+    "DE/DE2/ETL/MPP. Реализация в GreenPlum и ClickHouse..md",
+    "Аттестация_Ответы.md",
+    "DE/Основы-основ/Аттестация 2 категория.md",
+    "DE/DE2/ETL/Виды Task`ов в Airflow. TaskGroup. Динамическое создание DAG, Task.Передача данных между задачами..md",
+    "DE/DE2/ETL/Что такое Airflow и для чего он нужен. Из каких компонентов состоит. Что такое DAG, Task, Scheduler, Executor. Что такое Celery Executor.md",
+    "DE/DE2/Python/Обработка исключений..md",
+    "DE/DE2/Python/Сериализация данных в JSON и их десериализация при помощи Python..md",
+    "DE/DE2/Python/ORM. Основные подходы.md",
+    "DE/Основы-основ/Аттестация 1 категория.md",
     "DE/DE2/Python/Алгоритмическая сложность. Теория и примеры (хорошие и плохие практики). Основные примеры нотаций «O» большое..md",
+    "DE/DE2/Python/В чем заключается проблема рекурсивного импорта..md",
+    "DE/DE2/Python/Какие библиотеки позволяют осуществлять векторизованные вычисления и выполнять работу с матрицами и векторами Почему их использование предпочтительно (почему они работают быстрее).md",
+    "DE/DE2/Python/Коннекторы, драйверы, сессии..md",
     "DE/DE2/Python/Устройство работы с оперативной памятью в Python. GIL. Garbage collector.md",
+    "DE/DE2/Python/multiprocessing и multithreading — что это и в чем их различие..md",
+    "DE/DE2/Python/UNIT-тесты. Что это и для чего нужно. Основные принципы. Примеры.md",
+    "DE/DE2/Python/POST и GET запросы.md",
+    "README.md",
+    "DE/Основы-основ/Чуть более сложные основы Python.md",
+    "DE/DE2/Python/Функциональные выражения. Использование функций как аргументов. Функции первого и высшего порядков. Примеры..md",
+    "Без названия 1.base",
+    "Без названия.base",
     "conflict-files-obsidian-git.md",
+    "DE/DE2/ETL",
+    "DE/DE1/БД-Теория/Внешние ключи.md",
     "deepseek_mermaid_20250919_02977a.mermaid",
     "deepseek_mermaid_20250919_9cc2fd.mermaid",
     "deepseek_mermaid_20250919_9cc2fd 2.mermaid",
