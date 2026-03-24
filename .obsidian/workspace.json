@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DE/Основы-основ/Аттестация 2 категория.md",
+                "file": "DE/DE2/ETL/ACID..md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Аттестация 2 категория"
+              "title": "ACID."
             }
           }
         ]
@@ -194,8 +194,8 @@
   },
   "active": "636bc5a0224a42a7",
   "lastOpenFiles": [
-    "DE/DE2/Python/ORM. Основные подходы.md",
     "DE/Основы-основ/Аттестация 2 категория.md",
+    "DE/DE2/Python/ORM. Основные подходы.md",
     "DE/DE2/ETL/Что такое Airflow и для чего он нужен. Из каких компонентов состоит. Что такое DAG, Task, Scheduler, Executor. Что такое Celery Executor.md",
     "DE/DE2/Python/Сериализация данных в JSON и их десериализация при помощи Python..md",
     "DE/DE2/Python/Обработка исключений..md",
