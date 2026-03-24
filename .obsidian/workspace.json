@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DE/DE2/ETL/ACID..md",
+                "file": "DE/DE2/Python/Обработка исключений..md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ACID."
+              "title": "Обработка исключений."
             }
           }
         ]
@@ -195,6 +195,7 @@
   "active": "636bc5a0224a42a7",
   "lastOpenFiles": [
     "DE/Основы-основ/Аттестация 2 категория.md",
+    "DE/DE2/ETL/ACID..md",
     "DE/DE2/ETL/Батчевая и потоковая обработки данных. В чем их особенности и различия. Каппа и лямбда архитектуры..md",
     "DE/Основы-основ/Аттестация 1 категория.md",
     "Аттестация_Ответы.md",
@@ -210,7 +211,6 @@
     "DE/DE2/Python/В чем заключается проблема рекурсивного импорта..md",
     "DE/DE2/Python/ORM. Основные подходы.md",
     "DE/DE2/ETL/MPP. Реализация в GreenPlum и ClickHouse..md",
-    "DE/DE2/ETL/ACID..md",
     "DE/Основы-основ/Непонятные слова.md",
     "DE/Основы-основ/GIT команды PyCharm.md",
     "DE/Основы-основ/Основы работы Python.md",
