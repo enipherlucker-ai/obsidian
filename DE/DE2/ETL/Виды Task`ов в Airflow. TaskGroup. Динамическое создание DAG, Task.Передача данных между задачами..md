@@ -1,275 +1,356 @@
-Airflow — это оркестратор, который описывает pipeline как DAG, то есть граф задач с зависимостями. Базовая единица выполнения в нем — task. Формально в актуальной документации Airflow выделяют три базовых вида task: обычные operator-based задачи, sensors и TaskFlow-задачи, созданные через `@task`. При этом task в коде — это описание работы, а во время конкретного запуска DAG он превращается в task instance, то есть в конкретный экземпляр задачи со своим состоянием: `queued`, `running`, `success`, `failed`, `skipped` и так далее.
+#### 14.1. Основные типы операторов
 
-Для Data Engineer это важно, потому что ETL в Airflow — это не “один большой скрипт”, а набор изолированных шагов: extract, transform, load, проверки готовности данных, ветвления, ожидания внешних систем и так далее. Airflow в первую очередь управляет порядком, зависимостями, ретраями и расписанием, а не бизнес-логикой внутри самих шагов.
+Операторы делятся на три категории: **Action Operators** (выполняют действие), **Transfer Operators** (перемещают данные), **Sensors** (ожидают условие).
 
----
+**Action Operators:**
 
-## 1. Виды Task’ов в Airflow
+| Оператор | Описание | Типичный сценарий |
+|---|---|---|
+| `PythonOperator` | Вызывает произвольную Python-функцию | Любая трансформация данных в Python |
+| `BashOperator` | Выполняет bash-команду | Запуск shell-скриптов, CLI-утилит |
+| `PostgresOperator` | Выполняет SQL-запрос в PostgreSQL | DDL/DML операции в БД |
+| `MySqlOperator` | Выполняет SQL-запрос в MySQL | DDL/DML операции в MySQL |
+| `EmptyOperator` | Ничего не делает (ранее `DummyOperator`) | Заглушка для маршрутизации, точки слияния веток |
+| `BranchPythonOperator` | Вызывает функцию, возвращающую `task_id` следующей задачи | Условное ветвление пайплайна |
+| `ShortCircuitOperator` | Если функция вернула `False`, пропускает все downstream задачи | Условная остановка пайплайна |
+| `SparkSubmitOperator` | Отправляет Spark-приложение через `spark-submit` | Запуск Spark-джобов |
+| `DockerOperator` | Запускает задачу внутри Docker-контейнера | Изоляция зависимостей, воспроизводимость |
+| `KubernetesPodOperator` | Запускает задачу в отдельном Pod в Kubernetes | Cloud-native среды, per-task ресурсные лимиты |
+| `EmailOperator` | Отправляет e-mail | Уведомления |
 
-### 1.1. Operators
+**Пример `BranchPythonOperator`:**
 
-Самый классический вариант — это operator. Operator — это шаблон задачи. Например, `BashOperator` запускает shell-команду, `PythonOperator` вызывает Python-функцию, `SQLExecuteQueryOperator` выполняет SQL, `HttpOperator` дергает HTTP endpoint. Важная мысль: operator — это шаблон, а task — это уже конкретный экземпляр этого шаблона внутри DAG.
+```python
+from airflow.operators.python import BranchPythonOperator
 
-Как это объяснить просто:  
-operator — это “тип работы”, task — это “конкретная работа в моем pipeline”. Например, `PythonOperator` — это класс, а `calculate_metrics` внутри DAG — это уже task.
+def choose_branch(**context):
+    day = context['logical_date'].weekday()
+    if day < 5:  # будний день
+        return 'process_weekday'
+    else:
+        return 'process_weekend'
 
-### 1.2. Sensors
+branch = BranchPythonOperator(
+    task_id='branch_by_day',
+    python_callable=choose_branch,
+)
 
-Sensor — это специальный подвид operator, задача которого не что-то обработать, а дождаться события: появления файла, готовности таблицы, завершения внешнего DAG, наступления времени и так далее. Документация прямо описывает sensor как задачу, которая “ждет, пока что-то не произойдет”.
-
-У sensor есть важные режимы работы:
-
-- `poke` — сенсор держит worker slot все время ожидания;
-- `reschedule` — освобождает worker slot между проверками;
-- в современных инсталляциях часто еще используют deferrable operators/sensors, где ожидание уезжает в `triggerer`, и worker slot во время ожидания не занят. Это гораздо эффективнее для долгих ожиданий.
-
-Для аттестации полезно сказать так: если sensor ждет долго, обычный `poke` может съедать ресурсы кластера, поэтому лучше использовать `reschedule` или deferrable-вариант, если он есть.
-
-### 1.3. TaskFlow tasks через `@task`
-
-Третий базовый вид — TaskFlow-задачи. Это Python-функции, обернутые декоратором `@task`. Такой способ считается более “pythonic”: код чище, зависимости читаемее, а передача данных между задачами выглядит как обычная передача аргументов между функциями. Под капотом Airflow все равно использует XCom, но от автора DAG это во многом скрыто. В документации Airflow отдельно сказано, что `@task` делает код проще и автоматически берет на себя создание task, wiring зависимостей и передачу данных.
-
-Хорошая формулировка для устного ответа:  
-если раньше мы мыслили “операторами”, то TaskFlow позволяет мыслить “функциями Python”, а Airflow уже сам превращает их в задачи orchestration-уровня.
-
-### 1.4. Что еще часто выделяют на практике
-
-Формально базовых типов три, но на практике отдельно обсуждают еще управляющие задачи:
-
-- branch-задачи для ветвления;
-- setup/teardown-задачи для поднятия и удаления ресурсов;
-- dynamically mapped tasks, когда одна логическая задача размножается на N инстансов во время выполнения.
-
-Важно сказать аккуратно: это не “четвертый базовый тип task” в документации, а скорее специальные паттерны или режимы orchestration поверх обычных task.
-
----
-
-## 2. TaskGroup
-
-TaskGroup нужен, чтобы логически сгруппировать несколько задач внутри одного DAG и сделать граф читаемым. Документация Airflow говорит, что TaskGroup используется для организации задач в иерархические группы в Graph View и для уменьшения визуального шума. При этом задачи внутри TaskGroup живут в том же самом исходном DAG и наследуют его настройки и pool-конфигурации.
-
-Простое объяснение:  
-TaskGroup — это не отдельный pipeline и не отдельный runtime-контейнер. Это способ сказать: “вот этот кусок DAG логически относится к этапу staging”, “вот это блок валидаций”, “вот это загрузка по нескольким источникам”.
-
-Под капотом важно понимать две вещи.
-
-Первая: TaskGroup не создает отдельный DAG Run. Все задачи внутри него остаются обычными task того же DAG. Поэтому зависимости, ретраи, пулы, concurrency и scheduler работают на уровне обычных task, а не на уровне TaskGroup как самостоятельной сущности. Это частый каверзный момент. Документация прямо подчеркивает, что задачи TaskGroup живут в исходном DAG.
-
-Вторая: у дочерних задач по умолчанию `task_id` префиксуются `group_id`, чтобы обеспечить уникальность. Если отключить `prefix_group_id=False`, уникальность имен придется обеспечивать вручную.
-
-Практически TaskGroup полезен, когда:
-
-- DAG большой и его надо сделать читаемым;
-- есть повторяющиеся этапы вроде `extract -> validate -> load`;
-- нужен визуальный порядок, но не хочется дробить orchestration на отдельные DAG.
-
----
-
-## 3. Динамическое создание DAG и Task
-
-Вот здесь чаще всего путаются, поэтому на аттестации лучше сразу разделить три разные идеи.
-
-### 3.1. Динамическая генерация DAG при парсинге
-
-Airflow загружает DAG из Python-файлов: он исполняет файл и затем ищет DAG-объекты верхнего уровня. То есть DAG в Airflow — это не статический YAML, а обычный Python-код, поэтому можно использовать циклы, функции, конфиги и генерацию. Документация Airflow прямо говорит, что файл DAG исполняется, после чего Airflow забирает top-level DAG objects.
-
-Отсюда следует важный вывод: когда мы “динамически создаем DAG”, чаще всего это означает, что Python-код при импорте файла генерирует один или несколько DAG-объектов. Например, мы читаем список таблиц и для каждой таблицы создаем свой DAG. Это происходит на этапе парсинга scheduler’ом, а не в момент выполнения конкретного task.
-
-### 3.2. Динамическое создание task в Python-цикле
-
-Второй уровень — это когда внутри одного DAG мы через `for` создаем набор задач. Например, есть список витрин, и для каждой создается `SQLExecuteQueryOperator`. Airflow прямо показывает такой пример с циклом в разделе Dynamic Dags.
-
-Но тут есть ограничение: это тоже parse-time история. То есть количество и topology этих задач должны быть известны в момент, когда scheduler читает Python-файл DAG. Документация советует держать topology DAG относительно стабильной и использовать dynamic DAGs в основном для конфигурации и параметризации, а не для хаотически меняющейся структуры.
-
-### 3.3. Dynamic Task Mapping — это уже runtime
-
-Третья история — Dynamic Task Mapping. Это другой механизм. Документация Airflow прямо разделяет его с обычным `for`-циклом: scheduler создает N копий задачи прямо перед выполнением, основываясь на данных, которые вернула предыдущая задача. То есть количество задач определяется не при парсинге DAG-файла, а во время выполнения DAG Run.
-
-Вот это и есть правильная формулировка для middle-уровня:
-
-- цикл `for` в DAG-файле — задачи создаются во время парсинга;
-- dynamic DAG generation — Python генерирует DAG-объекты при загрузке файла;
-- dynamic task mapping — scheduler размножает task instance во время runtime на основе upstream data.
-
-Это очень любят спрашивать именно как каверзный вопрос.
-
-### 3.4. Что важно “под капотом”
-
-Scheduler регулярно парсит DAG-файлы. В best practices документация Airflow предупреждает: тяжелый код на верхнем уровне файла DAG вреден, потому что scheduler исполняет top-level code снова и снова. Поэтому на верхнем уровне нельзя делать тяжелые network/db вызовы, дорогие вычисления и прочие вещи, не нужные для самого построения DAG.
-
-Отсюда практический вывод для dynamic DAG generation:
-
-- не тянуть из БД большой конфиг прямо в top-level код без необходимости;
-- не делать тяжелые API-вызовы при импорте;
-- не использовать `Variable.get()` без нужды в top-level коде, потому что это дополнительные обращения к метабазе при каждом парсинге. Документация отдельно предупреждает про это.
-
----
-
-## 4. Передача данных между задачами
-
-### 4.1. Главная идея
-
-По умолчанию задачи в Airflow изолированы и могут выполняться на разных машинах. Именно поэтому данные между ними не “лежат в памяти процесса”, как в обычной Python-программе. Для передачи небольших данных Airflow использует XCom. Документация прямо говорит, что XCom — это механизм, который позволяет task общаться друг с другом, потому что сами task изолированы и могут работать на разных машинах.
-
-### 4.2. XCom
-
-XCom — это кросс-коммуникация между task. XCom идентифицируется через `dag_id`, `task_id` и `key`. Он может хранить serializable values, но документация подчеркивает, что XCom предназначен только для небольших объемов данных, а не для DataFrame, больших файлов и массивов данных.
-
-То есть правильно передавать через XCom:
-
-- строки;
-- числа;
-- небольшие dict/list;
-- идентификаторы;
-- пути до файлов или объектов в S3/HDFS;
-- метаданные вроде даты, имени таблицы, количества строк.
-
-Неправильно передавать через XCom:
-
-- большие pandas DataFrame;
-- большие JSON;
-- бинарные файлы;
-- содержимое датасета целиком.  
-    Для такого лучше положить данные в S3, HDFS, GCS, staging-таблицу или объектное хранилище, а через XCom передать только ссылку или путь. Это прямо рекомендовано в best practices.
-
-### 4.3. Автоматическая передача данных в TaskFlow
-
-В TaskFlow API передача данных выглядит как обычный Python:
-``` python
-@task  
-def extract():  
-    return {"table": "sales", "dt": "2026-03-20"}  
-  
-@task  
-def load(meta):  
-    print(meta["table"])  
-  
-load(extract())
+branch >> [process_weekday, process_weekend] >> join
+# join должен иметь trigger_rule='none_failed_min_one_success'
 ```
-Снаружи кажется, что одна функция передает аргумент другой. Но под капотом Airflow сохраняет результат первой задачи в XCom и передает downstream-задаче ссылку на этот XCom. Документация TaskFlow прямо говорит, что return value передается в следующую задачу автоматически, без ручного XCom management, хотя под капотом используется именно XCom.
-
-Если функция возвращает dict и указан `multiple_outputs=True`, то каждая пара `key/value` кладется в отдельный XCom. Если `multiple_outputs=True` не указан, весь dict будет лежать как одно значение. Это тоже частый технический вопрос.
-
-### 4.4. Ручная работа с XCom
-
-В классическом operator-based стиле можно явно делать `xcom_push` и `xcom_pull`. Документация показывает именно такой сценарий: одна задача пушит значение по ключу, другая вытаскивает его по `task_ids` и `key`. Многие operators также автоматически пушат результат в ключ `return_value`, если `do_xcom_push=True`, а `@task` делает это по умолчанию для return value.
-
-### 4.5. Что важно practically для DE
-
-Для Data Engineer хорошая практика такая:
-
-- данные складываем во внешнее хранилище;
-- через XCom передаем только metadata и pointers;
-- задачи делаем идемпотентными;
-- не рассчитываем, что следующая задача увидит локальный файл предыдущей.  
-    Airflow best practices прямо предупреждают, что при CeleryExecutor или KubernetesExecutor соседние задачи могут выполняться на разных серверах, поэтому хранить промежуточный результат только локально нельзя.
 
 ---
 
-## 5. Что сказать “под капотом”, чтобы ответ звучал сильно
+#### 14.2. Sensors (Сенсоры)
 
-Можно сформулировать так:
+**Sensor** — это особый тип оператора, который **ожидает** выполнения некоторого условия перед тем, как завершиться успешно.
 
-“Под капотом Airflow хранит описание DAG в Python-коде, scheduler регулярно читает и исполняет DAG-файлы, строит граф зависимостей и создает Dag Run и Task Instance. Сами задачи независимы друг от друга и могут запускаться на разных worker’ах, поэтому передача данных идет не через память процесса, а через XCom или внешнее хранилище. TaskGroup не меняет модель исполнения — это просто логическая группировка в рамках того же DAG. А если нужна динамика, то надо различать parse-time генерацию задач обычным Python-кодом и runtime-расширение через Dynamic Task Mapping.”
+| Сенсор | Что ожидает |
+|---|---|
+| `FileSensor` | Появление файла по указанному пути |
+| `HttpSensor` | HTTP-ответ с определённым условием (напр., status 200) |
+| `ExternalTaskSensor` | Завершение задачи в другом DAG |
+| `SqlSensor` | Результат SQL-запроса (непустой = True) |
+| `S3KeySensor` | Появление объекта в S3-бакете |
+| `TimeDeltaSensor` | Прошествие заданного времени после `logical_date` |
+| `DateTimeSensor` | Наступление определённой даты/времени |
 
----
+Ключевые параметры сенсора:
 
-## 6. Что особенно важно подчеркнуть на позиции Data Engineer middle
+| Параметр | Описание |
+|---|---|
+| `poke_interval` | Интервал между проверками (по умолчанию 60 сек.) |
+| `timeout` | Максимальное время ожидания (по умолчанию 7 дней) |
+| `mode` | Режим ожидания: `'poke'` или `'reschedule'` |
+| `soft_fail` | Если `True`, при timeout задача получает статус `skipped` вместо `failed` |
+| `exponential_backoff` | Если `True`, интервал между проверками растёт экспоненциально |
 
-Вот 5 практических тезисов, которые звучат по-взрослому:
+**Режимы работы сенсоров:**
 
-1. **Task должен быть идемпотентным.** Airflow может ретраить задачу, поэтому шаг ETL не должен давать разный результат при повторном запуске. В best practices Airflow прямо рекомендует мыслить задачами как транзакциями, использовать UPSERT вместо INSERT при необходимости и работать по фиксированным partitions/data intervals.
-2. **XCom — для метаданных, а не для payload.** Через XCom передаем путь до S3-объекта, имя таблицы, execution date, row count, но не сам датасет.
-3. **TaskGroup — для читаемости, не для изоляции.** Он не дает отдельного scheduler/runtime boundary.
-4. **Dynamic DAG generation и Dynamic Task Mapping — не одно и то же.** Первый работает на этапе загрузки Python-файла, второй — во время выполнения DAG Run.
-5. **Тяжелую логику нельзя размещать в top-level DAG code.** Иначе scheduler будет тормозить при каждом парсинге.
+- **`mode='poke'`** (по умолчанию): Сенсор занимает **слот воркера** на всё время ожидания. Между проверками «спит» (`time.sleep`). Плюс: минимальная задержка. Минус: неэффективно расходует ресурсы.
+- **`mode='reschedule'`**: Сенсор освобождает слот воркера между проверками. После неудачной проверки переводит себя в статус `up_for_reschedule` и возвращает слот. Scheduler перепланирует его через `poke_interval`. Плюс: экономит ресурсы. Минус: больше накладных расходов.
+- **Deferrable Sensors** (Airflow 2.2+): Наиболее эффективный режим. Сенсор передаёт ожидание **Triggerer-у** (asyncio), полностью освобождая слот. Один Triggerer может ожидать тысячи условий.
 
----
+```python
+from airflow.sensors.filesystem import FileSensor
 
-## Каверзные вопросы и ответы
-
-### 1. Чем task отличается от task instance?
-
-**Ответ:**  
-Task — это описание шага в DAG, то есть логическая единица работы в коде. Task instance — это конкретный запуск этой задачи в рамках конкретного DAG Run, у которого уже есть состояние: `queued`, `running`, `success`, `failed` и так далее.
-
-### 2. Чем Operator отличается от Task?
-
-**Ответ:**  
-Operator — это шаблон или класс, который описывает тип работы. Когда я использую его в DAG и задаю параметры, получается task. То есть operator — это “форма”, task — “конкретный объект в моем графе”.
-
-### 3. Какие базовые виды task есть в Airflow?
-
-**Ответ:**  
-Формально три: Operators, Sensors и TaskFlow-задачи через `@task`. Все остальное вроде branching или mapped tasks — это уже специальные паттерны управления выполнением, а не отдельная базовая категория из core concepts.
-
-### 4. Чем `@task` лучше `PythonOperator`?
-
-**Ответ:**  
-`@task` обычно проще и чище для Python-логики: код выглядит как обычные функции, зависимости и передача данных читаются легче. В документации Airflow `@task` рекомендован вместо классического `PythonOperator` для обычных Python callables без template-rendering в аргументах. Под капотом data passing все равно идет через XCom.
-
-### 5. TaskGroup — это отдельный DAG?
-
-**Ответ:**  
-Нет. Это не отдельный DAG и не отдельный scheduler boundary. Задачи внутри TaskGroup живут в том же исходном DAG и используют те же настройки и pool-конфигурации. TaskGroup нужен в первую очередь для логической группировки и удобства Graph View.
-
-### 6. Можно ли через TaskGroup изолировать ресурсы или исполнение?
-
-**Ответ:**  
-Сам по себе TaskGroup этого не делает. Он не создает отдельный runtime-контур. Изоляцию ресурсов дают уже сами task-параметры: pools, queues, executor-specific настройки, operator configuration и так далее. А TaskGroup — это в первую очередь логическая структура поверх того же DAG. Основа этого вывода в том, что задачи внутри TaskGroup живут в исходном DAG и наследуют его настройки.
-
-### 7. В чем разница между задачами, созданными в `for`-цикле, и Dynamic Task Mapping?
-
-**Ответ:**  
-Задачи в `for`-цикле создаются при парсинге DAG-файла, то есть их количество уже известно scheduler’у заранее. Dynamic Task Mapping работает на runtime: scheduler получает результат upstream task и только перед исполнением создает нужное количество копий downstream task.
-
-### 8. Динамическое создание DAG и Dynamic Task Mapping — это одно и то же?
-
-**Ответ:**  
-Нет. Динамическое создание DAG — это когда Python-код генерирует DAG-объекты или статическую структуру задач при загрузке файла. Dynamic Task Mapping — это уже расширение задач во время выполнения конкретного DAG Run на основе данных.
-
-### 9. Почему нельзя передавать большой DataFrame через XCom?
-
-**Ответ:**  
-Потому что XCom рассчитан на маленькие serializable значения. Для больших payload он не предназначен. Нормальный паттерн: положить данные в S3/HDFS/GCS/таблицу, а через XCom передать только путь, имя объекта или другую метаинформацию.
-
-### 10. Можно ли передать файл между задачами через локальную файловую систему?
-
-**Ответ:**  
-На production это плохая идея. Следующая задача может стартовать на другом worker’е и просто не увидеть локальный файл. Airflow best practices отдельно предупреждают про это для CeleryExecutor и KubernetesExecutor.
-
-### 11. Что будет с XCom при retry задачи?
-
-**Ответ:**  
-Если первая попытка задачи не была успешной, на каждом retry XCom этой задачи очищаются, чтобы поведение задачи оставалось идемпотентным. Это очень любят спрашивать как неожиданный нюанс.
-
-### 12. Что делает `multiple_outputs=True`?
-
-**Ответ:**  
-Если TaskFlow-функция возвращает dict и указан `multiple_outputs=True`, Airflow раскладывает элементы словаря в отдельные XCom по ключам. Без этого весь dict сохраняется как одно значение.
-
-### 13. Чем sensor в `poke` отличается от `reschedule`?
-
-**Ответ:**  
-В `poke` sensor занимает worker slot все время ожидания. В `reschedule` он освобождает slot между проверками и возвращается позже. Поэтому для долгого ожидания `reschedule` обычно лучше по ресурсам, а для частых коротких проверок может быть уместен `poke`.
-
-### 14. А чем deferrable sensor лучше `reschedule`?
-
-**Ответ:**  
-У deferrable operator/sensor ожидание передается в `triggerer`: задача не держит worker slot, а асинхронный trigger ждет событие и потом сообщает Airflow, что задачу можно продолжить. Это обычно эффективнее и гибче, чем просто периодическое перепланирование по времени.
-
-### 15. Почему нельзя делать тяжелые вызовы в top-level DAG code?
-
-**Ответ:**  
-Потому что scheduler регулярно парсит DAG-файлы. Если на верхнем уровне есть тяжелые импорты, запросы в БД, API-вызовы или вычисления, это замедляет парсинг и ухудшает масштабируемость Airflow. Поэтому тяжелую логику надо переносить внутрь самих task.
-
-### 16. Что лучше передавать между task в ETL pipeline?
-
-**Ответ:**  
-Лучше передавать не сам датасет, а “указатель на датасет”: путь в S3, имя staging-таблицы, partition key, execution date, row count, checksum. Это и надежнее, и масштабируемее, и лучше соответствует архитектуре Airflow.
+wait_for_file = FileSensor(
+    task_id='wait_for_data_file',
+    filepath='/data/incoming/sales_{{ ds }}.csv',  # Jinja-шаблон
+    poke_interval=300,    # проверять каждые 5 минут
+    timeout=3600,         # таймаут 1 час
+    mode='reschedule',    # освобождать слот между проверками
+)
+```
 
 ---
 
-## Короткий итог, который можно сказать в конце
+#### 14.3. TaskGroup
 
-“В Airflow task — это базовая единица работы, и обычно я выделяю operator-based задачи, sensors и TaskFlow-задачи через `@task`. TaskGroup нужен для логической группировки и читаемости DAG, но не создает отдельный pipeline. Динамика в Airflow бывает двух разных уровней: parse-time генерация DAG и task обычным Python-кодом и runtime-динамика через Dynamic Task Mapping. Передача данных между задачами обычно идет через XCom, но только для небольших значений; большие данные надо хранить во внешнем storage и передавать между task только ссылки и метаданные.”
+**TaskGroup** — визуальная группировка задач в UI Airflow. Не влияет на выполнение — только на отображение.
+
+```python
+from airflow.utils.task_group import TaskGroup
+
+with DAG('pipeline', ...) as dag:
+    extract = PythonOperator(task_id='extract', ...)
+
+    with TaskGroup('transform_group') as transform_group:
+        clean = PythonOperator(task_id='clean', ...)
+        validate = PythonOperator(task_id='validate', ...)
+        enrich = PythonOperator(task_id='enrich', ...)
+        clean >> validate >> enrich
+
+    load = PythonOperator(task_id='load', ...)
+
+    extract >> transform_group >> load
+```
+
+В UI DAG будет показан со свёрнутой группой `transform_group`, которую можно развернуть для просмотра деталей.
+
+TaskGroup можно вкладывать друг в друга (nested TaskGroups).
+
+**SubDAG vs TaskGroup:**
+- `SubDagOperator` (устаревший) — создавал **отдельный DAG** внутри DAG, что приводило к проблемам: deadlock-и (SubDAG занимал слот родительского DAG), сложности с мониторингом, отдельный scheduler loop.
+- `TaskGroup` — **рекомендуемая замена** SubDAG с Airflow 2.0. Это просто визуальная группировка, задачи остаются частью родительского DAG, нет проблем с deadlock-ами.
+
+---
+
+#### 14.4. Динамическое создание DAG и Task
+
+**Динамическое создание DAG (через цикл):**
+
+```python
+# dynamic_dags.py
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from datetime import datetime
+
+configs = [
+    {'name': 'sales', 'source': 'postgres', 'table': 'sales'},
+    {'name': 'users', 'source': 'mysql', 'table': 'users'},
+    {'name': 'orders', 'source': 'api', 'endpoint': '/orders'},
+]
+
+def create_dag(config):
+    dag_id = f"etl_{config['name']}"
+
+    dag = DAG(
+        dag_id=dag_id,
+        schedule_interval='@daily',
+        start_date=datetime(2024, 1, 1),
+        catchup=False,
+    )
+
+    def extract_fn(**kwargs):
+        print(f"Extracting from {config['source']}")
+
+    def load_fn(**kwargs):
+        print(f"Loading {config['name']}")
+
+    with dag:
+        extract = PythonOperator(task_id='extract', python_callable=extract_fn)
+        load = PythonOperator(task_id='load', python_callable=load_fn)
+        extract >> load
+
+    return dag
+
+for config in configs:
+    globals()[f"etl_{config['name']}"] = create_dag(config)
+```
+
+Ключевой момент: DAG-объект должен оказаться в `globals()` модуля, чтобы Scheduler его обнаружил при парсинге.
+
+**Dynamic Task Mapping (Airflow 2.3+):**
+
+Позволяет создавать задачи **динамически во время выполнения** (а не при парсинге). Аналог `map` в функциональном программировании.
+
+```python
+from airflow.decorators import dag, task
+from datetime import datetime
+
+@dag(schedule='@daily', start_date=datetime(2024, 1, 1), catchup=False)
+def dynamic_etl():
+
+    @task
+    def get_partitions():
+        """Возвращает список партиций для обработки."""
+        return ['partition_a', 'partition_b', 'partition_c', 'partition_d']
+
+    @task
+    def process_partition(partition: str):
+        """Обработка одной партиции."""
+        print(f"Processing {partition}")
+        return f"result_{partition}"
+
+    @task
+    def aggregate(results):
+        """Агрегация всех результатов."""
+        print(f"Aggregating {len(results)} results")
+
+    partitions = get_partitions()
+    # .expand() создаёт N экземпляров задачи — по одному на каждый элемент
+    results = process_partition.expand(partition=partitions)
+    aggregate(results)
+
+dynamic_etl()
+```
+
+Airflow автоматически создаст 4 экземпляра `process_partition` (по одному на каждую партицию) и дождётся завершения всех перед запуском `aggregate`.
+
+---
+
+#### 14.5. Передача данных между задачами: XCom
+
+**XCom** (Cross-Communication) — механизм обмена **небольшими** данными между задачами.
+
+```python
+# Способ 1: явный push/pull
+def push_data(**context):
+    context['ti'].xcom_push(key='row_count', value=42)
+
+def pull_data(**context):
+    row_count = context['ti'].xcom_pull(task_ids='extract', key='row_count')
+    print(f"Extracted {row_count} rows")
+
+# Способ 2: return value (автоматический push с key='return_value')
+def extract_fn():
+    return {'rows': 100, 'source': 'postgres'}
+
+def load_fn(**context):
+    data = context['ti'].xcom_pull(task_ids='extract')
+    print(data)  # {'rows': 100, 'source': 'postgres'}
+
+# Способ 3: TaskFlow API (Airflow 2.0+) — автоматически через аннотации
+@task
+def extract():
+    return {'rows': 100}
+
+@task
+def transform(data):
+    data['rows'] *= 2
+    return data
+
+result = transform(extract())  # XCom передаётся неявно
+```
+
+**Ограничения XCom:**
+- Данные сериализуются в JSON и хранятся в Metadata DB.
+- **Ограничение по размеру**: PostgreSQL — практически неограничено (TEXT), MySQL — до 64 KB (BLOB), SQLite — подобно.
+- **Не предназначен для больших данных!** Для передачи больших объёмов данных — используйте промежуточное хранилище (S3, GCS, HDFS) и передавайте через XCom только **путь** к данным.
+
+**Custom XCom Backend:**
+
+С Airflow 2.0 можно заменить стандартное хранилище XCom на собственное (например, S3):
+
+```python
+# custom_xcom_backend.py
+from airflow.models.xcom import BaseXCom
+import json, boto3
+
+class S3XComBackend(BaseXCom):
+    @staticmethod
+    def serialize_value(value, *, key=None, task_id=None, dag_id=None,
+                        run_id=None, map_index=None):
+        s3 = boto3.client('s3')
+        s3_key = f"xcom/{dag_id}/{run_id}/{task_id}/{key}.json"
+        s3.put_object(
+            Bucket='airflow-xcom',
+            Key=s3_key,
+            Body=json.dumps(value),
+        )
+        return s3_key  # в Metadata DB хранится только путь
+
+    @staticmethod
+    def deserialize_value(result):
+        s3 = boto3.client('s3')
+        response = s3.get_object(Bucket='airflow-xcom', Key=result.value)
+        return json.loads(response['Body'].read())
+```
+
+Конфигурация: `xcom_backend = my_module.S3XComBackend`
+
+**Variables и Connections:**
+
+- **Variables** — глобальные key-value настройки, доступные из любого DAG. Хранятся в Metadata DB. Можно шифровать. Доступ: `Variable.get('key')` или Jinja: `{{ var.value.key }}`.
+- **Connections** — хранят параметры подключения к внешним системам (host, login, password, port, schema, extra JSON). Управляются через UI или CLI. Используются Hooks и Operators.
+
+---
+
+#### 14.6. Написание собственного оператора
+
+Для создания кастомного оператора нужно унаследовать `BaseOperator` и реализовать метод `execute()`.
+
+```python
+from airflow.models import BaseOperator
+from airflow.utils.decorators import apply_defaults
+from typing import Any, Sequence
+
+class MyCustomOperator(BaseOperator):
+    """
+    Оператор для загрузки данных из REST API в PostgreSQL.
+    """
+
+    # Поля, поддерживающие Jinja-шаблонизацию
+    template_fields: Sequence[str] = ('endpoint', 'target_table')
+    template_ext: Sequence[str] = ('.sql',)
+
+    def __init__(
+        self,
+        endpoint: str,
+        target_table: str,
+        api_conn_id: str = 'default_api',
+        postgres_conn_id: str = 'default_postgres',
+        **kwargs,
+    ):
+        super().__init__(**kwargs)
+        self.endpoint = endpoint
+        self.target_table = target_table
+        self.api_conn_id = api_conn_id
+        self.postgres_conn_id = postgres_conn_id
+
+    def execute(self, context: dict) -> Any:
+        """
+        Основной метод — вызывается при выполнении задачи.
+        context содержит: ti, ds, logical_date, dag_run и т. д.
+        """
+        from airflow.providers.http.hooks.http import HttpHook
+        from airflow.providers.postgres.hooks.postgres import PostgresHook
+
+        # Используем Hook для работы с API
+        http_hook = HttpHook(method='GET', http_conn_id=self.api_conn_id)
+        response = http_hook.run(self.endpoint)
+        data = response.json()
+
+        self.log.info(f"Получено {len(data)} записей из API")
+
+        # Используем Hook для работы с PostgreSQL
+        pg_hook = PostgresHook(postgres_conn_id=self.postgres_conn_id)
+        pg_hook.insert_rows(
+            table=self.target_table,
+            rows=[tuple(row.values()) for row in data],
+            target_fields=list(data[0].keys()),
+        )
+
+        self.log.info(f"Загружено {len(data)} записей в {self.target_table}")
+        return len(data)  # return value попадёт в XCom
+```
+
+Использование:
+
+```python
+load_api_data = MyCustomOperator(
+    task_id='load_api_data',
+    endpoint='/api/v1/sales/{{ ds }}',  # Jinja: подставит logical_date
+    target_table='raw_sales',
+    api_conn_id='sales_api',
+    postgres_conn_id='dwh_postgres',
+)
+```
+
+**`template_fields`** — кортеж имён атрибутов, в которых Airflow выполнит Jinja-рендеринг перед вызовом `execute()`. Это позволяет использовать макросы: `{{ ds }}`, `{{ logical_date }}`, `{{ params.my_param }}` и т. д.
+
+**Hooks vs Operators:**
+- **Hook** — низкоуровневый интерфейс для подключения к внешней системе (API, БД, облачному сервису). Hook знает *как* подключиться и взаимодействовать. Примеры: `PostgresHook`, `S3Hook`, `HttpHook`.
+- **Operator** — высокоуровневая абстракция, определяющая *что* делать. Operator использует Hook для подключения к системе. Примеры: `PostgresOperator`, `S3ToRedshiftOperator`.
+- Если нужна нестандартная логика — пишите **свой Operator**, используя существующие **Hooks**. Если нет подходящего Hook — пишите и Hook тоже.
