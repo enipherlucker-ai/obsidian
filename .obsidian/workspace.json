@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DE/Основы-основ/Аттестация 2 категория.md",
+                "file": "DE/DE2/Python/Сериализация данных в JSON и их десериализация при помощи Python..md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Аттестация 2 категория"
+              "title": "Сериализация данных в JSON и их десериализация при помощи Python."
             }
           },
           {
@@ -236,8 +236,8 @@
   },
   "active": "6c871be4f901c40a",
   "lastOpenFiles": [
-    "DE/DE2/ETL/ACID..md",
     "DE/Основы-основ/Аттестация 2 категория.md",
+    "DE/DE2/ETL/ACID..md",
     "DE/DE2/ETL/Что такое Airflow и для чего он нужен. Из каких компонентов состоит. Что такое DAG, Task, Scheduler, Executor. Что такое Celery Executor.md",
     "DE/DE2/Python/Обработка исключений..md",
     "DE/DE2/Python/Сериализация данных в JSON и их десериализация при помощи Python..md",
