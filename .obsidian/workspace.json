@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DE/DE2/Python/Устройство работы с оперативной памятью в Python. GIL. Garbage collector.md",
+                "file": "DE/Основы-основ/Аттестация 2 категория.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Устройство работы с оперативной памятью в Python. GIL. Garbage collector"
+              "title": "Аттестация 2 категория"
             }
           }
         ]
@@ -194,6 +194,7 @@
   },
   "active": "636bc5a0224a42a7",
   "lastOpenFiles": [
+    "DE/DE2/Python/Устройство работы с оперативной памятью в Python. GIL. Garbage collector.md",
     "DE/Основы-основ/Аттестация 2 категория.md",
     "DE/Основы-основ/Аттестация 1 категория.md",
     "DE/DE2/Python/Алгоритмическая сложность. Теория и примеры (хорошие и плохие практики). Основные примеры нотаций «O» большое..md",
@@ -221,7 +222,6 @@
     "DE/Основы-основ/GIT команды PyCharm.md",
     "DE/Основы-основ/Основы работы Python.md",
     "DE/Основы-основ/Чуть более сложные основы Python.md",
-    "DE/DE2/ETL/ETL и ELT. В чем ключевые различия в этих подходах. В каком контексте применяются и упоминаются эти парадигмы.md",
     "DE/DE2/ETL",
     "deepseek_mermaid_20250919_02977a.mermaid",
     "deepseek_mermaid_20250919_9cc2fd.mermaid",
